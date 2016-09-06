@@ -30,12 +30,6 @@ static inline bool isspace(int c) {
     return (c >= 9 && c <= 13) || c == 32 || c == 133 || c == 160;
 }
 
-//static inline int peekchar(struct csv_parser *csv) {
-//    char c = readchar(csv);
-//    csv->buffer_char = c;
-//    return c;
-//}
-
 static inline void writechar(struct csv_parser* csv, char c) {
     if (csv->data_ptr == csv->data + csv->data_size) {
         csv->data = realloc(csv->data, 2 * csv->data_size);
@@ -120,7 +114,11 @@ bool csv_read_record(struct csv_parser* csv) {
                 return true;
             }
         } else if (c == csv->delimiter) {
-            writefield(csv);
+            if (quoted) {
+                writechar(csv, c);
+            } else {
+                writefield(csv);
+            }
         } else if (c == csv->text_qualifier) {
             if (quoted) {
                 int next = readchar(csv);
