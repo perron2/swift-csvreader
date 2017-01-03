@@ -1,6 +1,6 @@
 import Foundation
 
-public class CsvReader {
+open class CsvReader {
     var delimiter: Character = ","
     var textQualifier = "\""
     var trimWhitespace: Bool = true
@@ -9,15 +9,15 @@ public class CsvReader {
 
     init?(path: String) {
         self.path = path
-        csv = csv_init(path)
-        if csv == nil {
+        guard let csv = csv_init(path) else {
             return nil
         }
 
-        csv.memory.delimiter = Int8(String(delimiter).utf8.first!)
-        csv.memory.delimiter = Int8(String(delimiter).utf8.first!)
-        csv.memory.trim_whitespace = trimWhitespace
-        csv.memory.skip_empty_records = skipEmptyRecords
+        csv.pointee.delimiter = Int8(String(delimiter).utf8.first!)
+        csv.pointee.delimiter = Int8(String(delimiter).utf8.first!)
+        csv.pointee.trim_whitespace = trimWhitespace
+        csv.pointee.skip_empty_records = skipEmptyRecords
+        self.csv = csv
     }
 
     deinit {
@@ -31,7 +31,7 @@ public class CsvReader {
 
         headers = [String:Int](minimumCapacity: numFields)
         for i in 0..<numFields {
-            let header = String.fromCString(csv_get_field(csv, Int32(i))) ?? ""
+            let header = String(cString: csv_get_field(csv, Int32(i))) 
             headers[header] = i
         }
         return true
@@ -47,18 +47,18 @@ public class CsvReader {
         }
     }
 
-    func getIndex(name: String) -> Int {
+    func getIndex(_ name: String) -> Int {
         return headers[name] ?? -1
     }
 
-    func get(index: Int) -> String {
-        if let str = String.fromCString(csv_get_field(csv, Int32(index))) {
+    func get(_ index: Int) -> String {
+        if let str = String(validatingUTF8: csv_get_field(csv, Int32(index))) {
             return str
         }
         return ""
     }
 
-    func get(name: String) -> String {
+    func get(_ name: String) -> String {
         return get(getIndex(name))
     }
 
