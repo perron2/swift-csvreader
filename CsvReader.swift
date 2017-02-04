@@ -1,6 +1,6 @@
 import Foundation
 
-open class CsvReader {
+public class CsvReader {
     var delimiter: Character = ","
     var textQualifier = "\""
     var trimWhitespace: Bool = true
