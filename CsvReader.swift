@@ -1,4 +1,4 @@
-import Foundation
+//import Foundation
 
 public class CsvReader {
     var delimiter: Character = ","
@@ -13,7 +13,6 @@ public class CsvReader {
             return nil
         }
 
-        csv.pointee.delimiter = Int8(String(delimiter).utf8.first!)
         csv.pointee.delimiter = Int8(String(delimiter).utf8.first!)
         csv.pointee.trim_whitespace = trimWhitespace
         csv.pointee.skip_empty_records = skipEmptyRecords
