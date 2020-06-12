@@ -1,4 +1,4 @@
-//import Foundation
+// import Foundation
 
 public class CsvReader {
     var delimiter: Character = ","
@@ -28,9 +28,9 @@ public class CsvReader {
             return false
         }
 
-        headers = [String:Int](minimumCapacity: numFields)
+        headers = [String: Int](minimumCapacity: numFields)
         for i in 0..<numFields {
-            let header = String(cString: csv_get_field(csv, Int32(i))) 
+            let header = String(cString: csv_get_field(csv, Int32(i)))
             headers[header] = i
         }
         return true
@@ -63,5 +63,5 @@ public class CsvReader {
 
     private var path: String
     private var csv: UnsafeMutablePointer<csv_parser>
-    private var headers = [String:Int]()
+    private var headers = [String: Int]()
 }
