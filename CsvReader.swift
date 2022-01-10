@@ -3,9 +3,9 @@
 public class CsvReader {
     var delimiter: Character = ","
     var textQualifier = "\""
-    var trimWhitespace: Bool = true
-    var skipEmptyRecords: Bool = true
-    private(set) var numFields: Int = 0
+    var trimWhitespace = true
+    var skipEmptyRecords = true
+    private(set) var numFields = 0
 
     init?(path: String) {
         self.path = path
