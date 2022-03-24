@@ -46,19 +46,29 @@ public class CsvReader {
         }
     }
 
-    func getIndex(_ name: String) -> Int {
+    func index(_ name: String) -> Int {
         return headers[name] ?? -1
     }
 
-    func get(_ index: Int) -> String {
+    func string(_ index: Int) -> String {
         if let str = String(validatingUTF8: csv_get_field(csv, Int32(index))) {
             return str
         }
         return ""
     }
 
-    func get(_ name: String) -> String {
-        return get(getIndex(name))
+    func string(_ name: String) -> String {
+        return string(index(name))
+    }
+
+    func stringOrNil(_ index: Int) -> String? {
+        let value = string(index)
+        return value == "" ? nil : value
+    }
+
+    func stringOrNil(_ name: String) -> String? {
+        let value = string(name)
+        return value == "" ? nil : value
     }
 
     private var path: String

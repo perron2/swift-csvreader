@@ -8,8 +8,9 @@ Example
 if let csv = CsvReader(path: "file.csv") {
     csv.readHeaders()
     while csv.readRecord() {
-        print(csv.get("name"))
-        print(csv.get("age"))
+        print(csv.string("name"))
+        print(csv.string("age"))
+        print(csv.stringOrNil("place"))
     }
 }
 ```
@@ -19,11 +20,12 @@ For better performance you can determine the indexes of the columns before loopi
 ```swift
 if let csv = CsvReader(path: "file.csv") {
     csv.readHeaders()
-    let nameIndex = csv.getIndex("name")
-    let ageIndex = csv.getIndex("age")
+    let nameIndex = csv.index("name")
+    let ageIndex = csv.index("age")
     while csv.readRecord() {
-        print(csv.get(nameIndex))
-        print(csv.get(ageIndex))
+        print(csv.string(nameIndex))
+        print(csv.string(ageIndex))
+        print(csv.stringOrNil("place"))
     }
 }
 ```
